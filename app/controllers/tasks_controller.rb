@@ -7,22 +7,15 @@ class TasksController < ApplicationController
   # tasks#index
   def index
       @pagy, @tasks = pagy(current_user.tasks.order(id: :desc))
-    # if logged_in?
-      # @tasks = Task.all
-    # end
   end
   
   # tasks#show
   def show
-    # @task = Task.find(params[:id])
-    # @task.show
   end
   
   # tasks#new
   def new
     @task = current_user.tasks.build
-    # @task = Task.new
-    # @task.new(task_params)
   end
   
   # task#create
@@ -34,28 +27,16 @@ class TasksController < ApplicationController
       else
         @pagy, @tasks = pagy(current_user.tasks.order(id: :desc))
         flash.now[:danger] = "メッセージの投稿に失敗しました。"
-        render "tasks/index"
+        render "tasks/new"
       end
   end
-    # @task = Task.new(task_params)
     
-    # if @task.save
-    #   flash[:success] = "Task が正常に投稿されました"
-    #   redirect_to @task
-    # else
-    #   flash.now[:danger] = "Task が投稿されませんでした"
-    #   render :new
-    # end
-  
   # tasks#edit
   def edit
-    # @task = Task.find(params[:id])
   end
   
   # tasks#update
   def update
-    # @task = Task.find(params[:id])
-    
     if @task.update(task_params)
       flash[:success] = "Task は正常に更新されました"
       redirect_to @task
@@ -67,7 +48,6 @@ class TasksController < ApplicationController
   
   # task#destroy
   def destroy
-    # @task = Task.find(params[:id])
     @task.destroy
     
     flash[:success] = "Task は正常に削除されました"
