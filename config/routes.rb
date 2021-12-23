@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get "signup", to: "users#new"
   
   resources :tasks
-  resources :users, only: [:index, :show, :create]
+  resources :users, only: [:index, :show, :new, :create]
 end
 
 # CRUD Create,Read,Update,Delete のルーティング

@@ -1,7 +1,7 @@
 <header class="mb-4">
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fuild ps-5 pe-5">
-      <a class="navbar-bland" href="/">Tasklist</a>
+      <a class="navbar-brand" href="/">Tasklist</a>
       <button class="navbar-toggler" type="button" data-bs-topple="collapse" data-bs-target="#navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -10,13 +10,13 @@
         <!--ログインしている時に表示される-->
         <% if logged_in? %>
           <div class="btn-group">
-            <ul class="navbar-nav">
-              <li class="ms-3"><%= link_to "Users", users_path, class: "nav-link" %></li>
-            </ul>
+            <!--<ul class="navbar-nav">-->
+            <!--  <li class="ms-3"><%= link_to "Users", users_path, class: "nav-link" %></li>-->
+            <!--</ul>-->
             <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><%= current_user.name %></button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li class="dropdown-item"><%= link_to "My profile", user_path(current_user), class:"nav-link" %></li>
-              <li class="dropdown-divider"></li>
+            <ul class="dropdown-menu dropdown-menu">
+              
+              <!--<li class="dropdown-divider"></li>-->
               <li class="dropdown-item"><%= link_to "Logout", logout_path, method: :delete, class:"nav-link" %></li>
             </ul>
           </div>

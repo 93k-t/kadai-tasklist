@@ -1,25 +1,28 @@
 class TasksController < ApplicationController
   # 下記コードでこの中の全アクションがログイン必須
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  # correct_user 現時点ではdestroyのみが定義されている状態,ここに詳細,編集,更新を追加
+  before_action :correct_user, only: [:destroy, :show, :edit, :update]
   
   # tasks#index
   def index
-    if logged_in?
-      @task = current_user.tasks.build
       @pagy, @tasks = pagy(current_user.tasks.order(id: :desc))
-      @tasks = Task.all
-    end
+    # if logged_in?
+      # @tasks = Task.all
+    # end
   end
   
   # tasks#show
   def show
-    @task = Task.find(params[:id])
+    # @task = Task.find(params[:id])
+    # @task.show
   end
   
   # tasks#new
   def new
-    @task = Task.new
+    @task = current_user.tasks.build
+    # @task = Task.new
+    # @task.new(task_params)
   end
   
   # task#create
@@ -46,12 +49,12 @@ class TasksController < ApplicationController
   
   # tasks#edit
   def edit
-    @task = Task.find(params[:id])
+    # @task = Task.find(params[:id])
   end
   
   # tasks#update
   def update
-    @task = Task.find(params[:id])
+    # @task = Task.find(params[:id])
     
     if @task.update(task_params)
       flash[:success] = "Task は正常に更新されました"
@@ -64,7 +67,7 @@ class TasksController < ApplicationController
   
   # task#destroy
   def destroy
-    @task = Task.find(params[:id])
+    # @task = Task.find(params[:id])
     @task.destroy
     
     flash[:success] = "Task は正常に削除されました"
@@ -75,11 +78,12 @@ class TasksController < ApplicationController
   
   # Strong Parameter
   def task_params
-    params.require(:task).permit(:content, :status)
+    params.require(:task).permit(:content, :status, :user)
   end
   
+  # ログインユーザーのみがCRUD操作を行えるようになるメソッド
   def correct_user
-    @task =current_user.tasks.find_by(id: params[:id])
+    @task = current_user.tasks.find_by(id: params[:id])
     unless @task
       redirect_to root_url
     end

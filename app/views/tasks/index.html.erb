@@ -1,27 +1,26 @@
-<!--ログインしている時に表示される-->
-<% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
-  <h1>タスク一覧</h1>
-    <div class="row">
-      <aside class="col-sm-4">
-        <%= form_with(model: @task) do |f| %>
-          <div class="mb-3">
-            <%= f.text_area :content, class: "form-control", rows: 5 %>
-          </div>
-          <%= f.submit "Post", class: "btn btn-primary w-100" %>
-        <% end %>
-      </aside>
-      <div class="col-sm-8">
-        <%= render "tasks/tasks", tasks: @tasks %>
-      </div>
-    </div>
-    <%= link_to "新規タスクの投稿", new_task_path %>
-<!--ログインしていない時に表示される-->
-<% else %>
-  <div class="bg-secondary p-3 p-sm-5 my-4 rounded">
-    <div class="text-center text-white">
-      <h1>トップページ</h1>
-      <%= link_to "Sign up now!", signup_path,class: "btn btn-lg btn-primary" %>
-    </div>
-  </div>
+<% if @tasks.any? %>
+ <ul class="list-unstyled mt-2">
+   <% @tasks.each do |task| %>
+     <li class="d-flex">
+       <img class="rounded me-2 mb-5" src="<%= gravatar_url(task.user,{size:64}) %>" alt="">
+       <div>
+         <div>
+          <!--ログインユーザ名:投稿日時-->
+           <p><%= task.user.name %> : posted at <%= task.created_at %></p>
+           <!--投稿内容-->
+           <p><%= task.content %></p>
+         </div>
+         <div>
+          <!--ログインユーザと投稿ユーザが一緒ならば-->
+           <% if current_user == task.user %>
+            <%= link_to "詳細", task, method: :get, class: "btn btn-success btn-sm" %>
+            <%= link_to "削除", task, method: :delete, data: {confirm: "You sure?"}, class: "btn btn-danger btn-sm" %>
+           <% end %>
+         </div>
+       </div>
+     </li>
+   <% end %>
+ </ul>
+ <%== pagy_bootstrap_nav(@pagy) %>
 <% end %>
+<%= link_to "新規タスクの投稿", new_task_path %>
