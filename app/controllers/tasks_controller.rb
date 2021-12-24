@@ -22,11 +22,11 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
       if @task.save
-        flash[:success] = "メッセージを投稿しました。"
+        flash[:success] = "Task を投稿しました。"
         redirect_to root_url
       else
         @pagy, @tasks = pagy(current_user.tasks.order(id: :desc))
-        flash.now[:danger] = "メッセージの投稿に失敗しました。"
+        flash.now[:danger] = "Task の投稿に失敗しました。"
         render "tasks/new"
       end
   end
